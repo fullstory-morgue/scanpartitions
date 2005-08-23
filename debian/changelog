@@ -1,0 +1,95 @@
+scanpartitions-kanotix (0.5.15) unstable; urgency=low
+
+  * packaging overhaul.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 23 Aug 2005 18:37:10 +0200
+
+scanpartitions-kanotix (0.5.14) unstable; urgency=low
+
+  * import hwraid support by kelmo. 
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 30 Apr 2005 14:47:21 +0200
+
+scanpartitions-kanotix (0.5.13) unstable; urgency=low
+
+  * important updates from Knoppix 3.8
+    - improve swap detection.
+    - handle /dev/ub?.
+  * conflict with scanpartitions-knoppix.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 22 Mar 2005 17:54:52 +0100
+
+scanpartitions-kanotix (0.5-12) unstable; urgency=low
+
+  * fix dependencies. 
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 23 Dec 2004 01:33:34 +0100
+
+scanpartitions-kanotix (0.5-11) unstable; urgency=low
+
+  * Fork for Kanotix compatibility.
+  * add reiser4 detection (note: parted can't detect reiser4 yet).
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 21 Dec 2004 22:10:49 +0100
+
+scanpartitions-knoppix (0.5-10) unstable; urgency=low
+
+  * Take into account /dev/ataraid/d?p*
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Mon, 16 Aug 2004 07:41:14 +0200
+
+scanpartitions-knoppix (0.5-9) unstable; urgency=low
+
+  * Don't add partitions larger than disksize to fstab (workaround for broken USB storage devices)
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Sun,  8 Aug 2004 16:28:42 +0200
+
+scanpartitions-knoppix (0.5-8) unstable; urgency=low
+
+  * Make fstype a separate script
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Thu, 22 Apr 2004 02:14:31 +0200
+
+scanpartitions-knoppix (0.5-7) unstable; urgency=low
+
+  * Shift sort order of entries, because bootable partitions seem to have an
+    *x86* entry, even if they are not (V)FAT.
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Mon, 19 Apr 2004 20:39:03 +0200
+
+scanpartitions-knoppix (0.5-6) unstable; urgency=low
+
+  * No test mounts (hang with USB memorysticks sometimes)
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Sat,  3 Apr 2004 21:36:52 +0200
+
+scanpartitions-knoppix (0.5-5) unstable; urgency=low
+
+  * Exclude ram* and cloop* from /proc/partitions (Kernel 2.6 bug/feature?)
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Mon,  1 Mar 2004 09:39:53 +0100
+
+scanpartitions-knoppix (0.5-4) unstable; urgency=low
+
+  * Replaced testmounts with echos for "well-known" filesystems for faster scanning
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Tue,  3 Dec 2002 21:57:53 +0100
+
+scanpartitions-knoppix (0.5-3) unstable; urgency=low
+
+  * Glue with knoppix-rebuildfstab
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Tue, 26 Nov 2002 23:04:49 +0100
+
+scanpartitions-knoppix (0.5-2) unstable; urgency=low
+
+  * Workaround a /proc/partitions read kernel bug
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Sat,  5 Oct 2002 21:39:47 +0200
+
+scanpartitions-knoppix (0.5-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Klaus Knopper <knopper@linuxtag.net>  Mon, 12 Aug 2002 13:56:53 +0200
+

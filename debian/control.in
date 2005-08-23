@@ -1,0 +1,16 @@
+Source: scanpartitions-kanotix
+Section: utils
+Priority: optional
+Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Build-Depends-Indep: @cdbs@
+Standards-Version: 3.6.2
+
+Package: scanpartitions-kanotix
+Architecture: all
+Depends: file
+Provides: scanpartitions-knoppix
+Conflicts: scanpartitions-knoppix
+Description: fstab-helper for KANOTIX
+ scanpartitions reads /proc/partitions and tries to guess
+ the filesystem on each partition for automatic /etc/fstab
+ generation.

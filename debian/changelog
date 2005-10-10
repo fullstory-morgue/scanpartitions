@@ -2,8 +2,9 @@ scanpartitions-kanotix (0.5.16) UNRELEASED; urgency=low
 
   * NOT RELEASED YET.
   * re- indent.
+  * switch to locsmif's re- write of fstype based on disktype.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 13:30:20 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 13:57:01 +0200
 
 scanpartitions-kanotix (0.5.15) unstable; urgency=low
 

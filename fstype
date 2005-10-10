@@ -51,7 +51,6 @@ if [ "$FILE" = "data" ]; then
 			FILE="$(dd if="$1" skip=65588 ibs=1 count=6 2>/dev/null)"
 			;;
 	esac
-i
 
 case "$FILE" in
 	*[Rr][Ee][Ii][Ss][Ee][Rr]4*)

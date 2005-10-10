@@ -1,3 +1,10 @@
+scanpartitions-kanotix (0.5.16) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET.
+  * re- indent.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 13:30:20 +0200
+
 scanpartitions-kanotix (0.5.15) unstable; urgency=low
 
   * packaging overhaul.

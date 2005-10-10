@@ -5,54 +5,97 @@
 # License: GNU GENERAL PUBLIC LICENSE version 2.0
 
 if [ -n "$1" ]; then
-# Check if partition is already mounted
- while read device mountpoint filesystem relax; do
-  case "$device" in *$1*) echo "$filesystem"; exit 0;; esac
-  done <<EOT
+	# Check if partition is already mounted
+	while read device mountpoint filesystem relax; do
+		case "$device" in
+			*$1*)
+				echo "$filesystem"
+				exit 0
+				;;
+		esac
+	done <<EOT
 $(cat /proc/mounts)
 EOT
 
-checkswap(){
-# Check for valid swap partition type
-[ -n "$1" ] || return 1
-while read device relax; do
-case "$device" in $1) case "$relax" in *[Ss][Ww][Aa][Pp]*) return 0;; esac;; esac
-done <<EOT
+checkswap() {
+	# Check for valid swap partition type
+	[ -n "$1" ] || return 1
+	while read device relax; do
+		case "$device" in
+			$1)
+				case "$relax" in
+					*[Ss][Ww][Aa][Pp]*)
+						return 0
+						;;
+				esac
+				;;
+		esac
+	done <<EOT
 $(LANG=C LC_ALL=C LC_MESSAGES=C fdisk -l "${1%%[0-9]*}" 2>/dev/null)
 EOT
-return 1
+	return 1
 }
 
 # Check if a device/medium is present at all
- dd if="$1" count=1 bs=1k >/dev/null 2>&1 || exit 2
- FILE="$(LANG=C LC_ALL=C LC_MESSAGES=C file -Lkbs "$1")"
- [ "$?" = "0" ] || exit 3
- if [ "$FILE" = "data" ]; then
- # could still be ReiserFS, since "file" only reads 64k in Debian
-   FILE="$(dd if="$1" skip=65536 ibs=1 count=7 2>/dev/null)"
-   case "$FILE" in
-    *[Rr][Ee][Ii][Ss][Ee][Rr]4*);;
-    *)                         FILE="$(dd if="$1" skip=65588 ibs=1 count=6 2>/dev/null)";;
-   esac
- fi
- case "$FILE" in
-  *[Rr][Ee][Ii][Ss][Ee][Rr]4*) echo "reiser4";;
-  *[Rr][Ee][Ii][Ss][Ee][Rr]*)  echo "reiserfs";;
-  *ISO\ 9660*)                 echo "iso9660";;
-  *[Mm][Ii][Nn][Ii][Xx]*)      echo "minix";;
-  *[Xx][Ff][Ss]*)              echo "xfs";;
-  *[Jj][Ff][Ss]*)              echo "jfs";;
-  *[Ee][Xx][Tt]3*)             echo "ext3";;
-  *[Ee][Xx][Tt]2*)             echo "ext2";;
-  *[Ss][Ww][Aa][Pp]*)          checkswap "$1" && echo "swap" || echo "auto";;
-  *[Nn][Tt][Ff][Ss]*)          echo "ntfs";;
-  *[Ff][Aa][Tt]*)              echo "vfat";;
-  *)                           echo "auto";;
- esac
+dd if="$1" count=1 bs=1k >/dev/null 2>&1 || exit 2
+FILE="$(LANG=C LC_ALL=C LC_MESSAGES=C file -Lkbs "$1")"
+[ "$?" = "0" ] || exit 3
+if [ "$FILE" = "data" ]; then
+	# could still be ReiserFS, since "file" only reads 64k in Debian
+	FILE="$(dd if="$1" skip=65536 ibs=1 count=7 2>/dev/null)"
+	
+	case "$FILE" in
+		*[Rr][Ee][Ii][Ss][Ee][Rr]4*)
+			;;
+		*)
+			FILE="$(dd if="$1" skip=65588 ibs=1 count=6 2>/dev/null)"
+			;;
+	esac
+i
+
+case "$FILE" in
+	*[Rr][Ee][Ii][Ss][Ee][Rr]4*)
+		echo "reiser4"
+		;;
+	*[Rr][Ee][Ii][Ss][Ee][Rr]*)
+		echo "reiserfs"
+		;;
+	*ISO\ 9660*)
+		echo "iso9660"
+		;;
+	*[Mm][Ii][Nn][Ii][Xx]*)
+		echo "minix"
+		;;
+	*[Xx][Ff][Ss]*)
+		echo "xfs"
+		;;
+	*[Jj][Ff][Ss]*)
+		echo "jfs"
+		;;
+	*[Ee][Xx][Tt]3*)
+		echo "ext3"
+		;;
+	*[Ee][Xx][Tt]2*)
+		echo "ext2"
+		;;
+	*[Ss][Ww][Aa][Pp]*)
+		checkswap "$1" && echo "swap" || echo "auto"
+		;;
+	*[Nn][Tt][Ff][Ss]*)
+		echo "ntfs"
+		;;
+	*[Ff][Aa][Tt]*)
+		echo "vfat"
+		;;
+	*)
+		echo "auto"
+		;;
+	esac
 else
- echo "Usage: $0 partition|disk" >&2
- echo "   returns \"partition fstype\" lines to stdout." >&2
- exit 1
+	echo "Usage: $0 partition|disk" >&2
+	echo "   returns \"partition fstype\" lines to stdout." >&2
+	exit 1
 fi
 
 exit 0
+

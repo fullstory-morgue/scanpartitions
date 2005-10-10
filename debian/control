@@ -7,7 +7,7 @@ Standards-Version: 3.6.2
 
 Package: scanpartitions-kanotix
 Architecture: all
-Depends: file, disktype, gawk
+Depends: disktype, gawk
 Provides: scanpartitions-knoppix
 Conflicts: scanpartitions-knoppix
 Description: fstab-helper for KANOTIX

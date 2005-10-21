@@ -1,9 +1,9 @@
-scanpartitions-kanotix (0.7) UNRELEASED; urgency=low
+scanpartitions-kanotix (0.6.1) unstable; urgency=low
 
-  * NOT RELEASED YET
   * fix FSF address.
+  * add /dev/cciss/c0d0 support.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 10 Oct 2005 14:13:55 +0200
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 21 Oct 2005 02:18:29 +0200
 
 scanpartitions-kanotix (0.6) unstable; urgency=low
 

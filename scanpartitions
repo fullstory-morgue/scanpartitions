@@ -24,7 +24,7 @@ if [ -z "$1" ]; then
 		[ "$blocks" -lt 2 ] 2>/dev/null && continue
 
 		case "$partition" in
-			?d?|ub?|ataraid/d?|rd/c?d?)
+			?d?|ub?|ataraid/d?|rd/c?d?|cciss/c?d?)
 				disks="$disks $partition"
 				disksize="$blocks"
 				blocksum=0

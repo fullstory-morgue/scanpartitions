@@ -1,3 +1,9 @@
+scanpartitions-kanotix (0.6.2) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 21 Oct 2005 02:22:04 +0200
+
 scanpartitions-kanotix (0.6.1) unstable; urgency=low
 
   * fix FSF address.

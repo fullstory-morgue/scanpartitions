@@ -1,8 +1,8 @@
-scanpartitions-kanotix (0.6.2) UNRELEASED; urgency=low
+scanpartitions-kanotix (0.7) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * change /mnt to /media
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Fri, 21 Oct 2005 02:22:04 +0200
+ -- Joerg Schirottke <master@kanotix.com>  Thu,  3 Nov 2005 12:37:14 +0100
 
 scanpartitions-kanotix (0.6.1) unstable; urgency=low
 

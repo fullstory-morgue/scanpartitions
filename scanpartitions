@@ -58,7 +58,7 @@ for p in $partitions; do
 	# fstype is an external script
 	scanfs="$(fstype $p)"
 	[ -n "$scanfs" ] && fs="$scanfs"
-	mountpoint="/mnt/${p##*/}"
+	mountpoint="/media/${p##*/}"
 	[ "$fs" = "swap" ] && mountpoint="none"
 	echo "${p}" "${mountpoint}" "${fs}"
 done

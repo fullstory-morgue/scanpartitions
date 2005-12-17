@@ -1,8 +1,10 @@
-scanpartitions-kanotix (0.8) UNRELEASED; urgency=low
+scanpartitions-kanotix (0.7.1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * remove cdbs auto-update feature.
+  * remove knoppix virtual packages.
+  * bump compat level to 5.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  3 Nov 2005 15:05:39 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 17 Dec 2005 03:24:19 +0100
 
 scanpartitions-kanotix (0.7) unstable; urgency=low
 

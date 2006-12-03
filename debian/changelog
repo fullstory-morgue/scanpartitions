@@ -1,11 +1,13 @@
-scanpartitions (0.7.2) UNRELEASED; urgency=low
+scanpartitions (0.7.2) unstable; urgency=low
 
-  * NOT RELEASED YET
+  [ Joaquim Boura ]
   * fix lintian errors.
-
   * Initial version for sidux
 
- -- Joaquim Boura <x-un-i@sidux.com>  Sat,  2 Dec 2006 15:37:28 +0100
+  [ Stefan Lippers-Hollmann ]
+  * tweak debian/control.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun,  3 Dec 2006 02:26:50 +0100
 
 scanpartitions-kanotix (0.7.1) unstable; urgency=low
 

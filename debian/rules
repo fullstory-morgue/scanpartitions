@@ -5,7 +5,3 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 install/scanpartitions::
 	install -D -m 0755 scanpartitions.awk \
 		debian/scanpartitions/usr/sbin/scanpartitions
-	#install -D -m 0755 scanpartitions \
-	#	debian/scanpartitions/usr/sbin/scanpartitions
-	#install -D -m 0755 fstype \
-	#	debian/scanpartitions/usr/sbin/fstype

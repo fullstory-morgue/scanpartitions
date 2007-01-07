@@ -38,11 +38,14 @@ device names are given as arguments.
 The following example will print a line for all supported volumes
 contained in \fI/proc/partitions\fR, using UUID metainfo for volume
 name:
+.PP
 .RS
 \fBscanpartitions -v uuids=1\fR
 .RE
+.PP
 The following example with print a line for block devices /dev/sda1
 and /dev/sda2, using LABEL metainfo where possible:
+.PP
 .RS
 \fBscanpartitions -v labels=1 /dev/sda1 /dev/sda2\fR
 .RE

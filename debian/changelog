@@ -7,8 +7,9 @@ scanpartitions (0.7.3) unstable; urgency=low
   * Add dependency on udev, which provides /lib/udev/vol_id.
   * Add scanpartitions.8 manpage.
   * Add myself to uploaders.
+  * Update debian/copyright accordingly.
 
- -- Kel Modderman <kel@otaku42.de>  Sun,  7 Jan 2007 12:23:32 +1000
+ -- Kel Modderman <kel@otaku42.de>  Sun,  7 Jan 2007 12:31:39 +1000
 
 scanpartitions (0.7.2) unstable; urgency=low
 

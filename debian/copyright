@@ -1,10 +1,12 @@
 This package was debianized by Klaus Knopper <knoppix@knopper.net> on
 Mon, 12 Aug 2002 13:56:26 +0200.
 
-It was downloaded from http://www.knopper.net/knoppix/sources/
+Upstream Author: Kel Modderman <kel@otaku42.de>
 
-Upstream Author: Klaus Knopper <knoppix@knopper.net>
-                 locsmif       <locsmif@rebelhomicide.demon.nl>
+Copyright (C) 2007 Kel Modderman <kel@otaku42.de>
+
+Based on the original scanpartitions written by Klaus Knopper from
+http://www.knopper.net/knoppix/sources/
 
 Copyright (C) 2002-2004 by Klaus Knopper <knoppix@knopper.net>
 Copyright (C) 2005      by locsmif       <locsmif@rebelhomicide.demon.nl>

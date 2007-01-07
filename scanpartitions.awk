@@ -21,6 +21,11 @@
 # found in /usr/share/common-licenses/GPL.
 
 BEGIN {
+	if (PROCINFO["uid"] != 0) {
+		print "You must be root!" > "/dev/stderr"
+		exit(1)
+	}
+
 	if (ARGC > 1) {
 		# test devices given as arguments
 		for (i = 1; i < ARGC; i++) {

@@ -54,6 +54,10 @@ function parse_vol_id(name)
 	# ensure `dev' is prefixed with /dev/
 	dev = "/dev/" name
 	
+	# device name blacklist
+	if (name ~ /^(ram|cloop|loop).+/)
+		return 0
+	
 	# test block device node for existance
 	if (blockdev_exists(dev) != 0)
 		return 0

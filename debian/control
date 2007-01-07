@@ -2,12 +2,13 @@ Source: scanpartitions
 Section: utils
 Priority: optional
 Maintainer: Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Uploaders: Kel Modderman <kel@otaku42.de>
 Build-Depends: cdbs, debhelper (>= 5)
 Standards-Version: 3.7.2
 
 Package: scanpartitions
 Architecture: all
-Depends: disktype, gawk
+Depends: udev
 Conflicts: scanpartitions-kanotix
 Description: fstab-helper for sidux
  scanpartitions reads /proc/partitions and tries to guess

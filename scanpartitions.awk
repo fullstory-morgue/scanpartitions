@@ -1,4 +1,4 @@
-#!/usr/bin/awk -f
+#!/usr/bin/mawk -f
 #
 # Copyright (C) 2007 Kel Modderman <kel@otaku42.de>
 #
@@ -47,8 +47,10 @@ function parse_vol_id(name)
 	# device name blacklist
 	if (name ~ /^(ram|cloop|loop).+/)
 		return 0
+
 	# run vol_id on dev, discard stderr
 	cmd = "/lib/udev/vol_id " dev " 2>/dev/null"
+
 	# label label_safe type usage uuid version
 	while ((cmd | getline) == 1) {
 		sub(/^ID_FS_/, "", $1)
@@ -78,7 +80,7 @@ function parse_vol_id(name)
 	mntpnt = (id["type"] == "swap") ? "none" : "/media/" name
 	
 	# print something useful for a fstab helper program
-	print(mntdev, mntpnt, fstype)
+	print(mntdev, mntpnt, id["type"])
 }
 
 BEGIN {

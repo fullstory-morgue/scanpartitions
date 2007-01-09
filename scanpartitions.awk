@@ -107,9 +107,10 @@ BEGIN {
 			if (ARGV[i] ~ /^(-u|--uuids)$/) uuids=1
 			else if (ARGV[i] ~ /^(-l|--labels)$/) labels=1
 			else if (ARGV[i] ~ /^-/) usage()
-			else parse_vol_id(ARGV[i])
+			else p[++j] = ARGV[i]
 		}
 	}
+	if (p[1]) for (i in p) parse_vol_id(p[i])
 	else parse_all()
 }
 

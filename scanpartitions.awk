@@ -20,33 +20,18 @@
 # On Debian GNU/Linux systems, the text of the GPL license can be
 # found in /usr/share/common-licenses/GPL.
 
-BEGIN {
-	if (ARGC > 1) {
-		# test devices given as arguments
-		for (i = 1; i < ARGC; i++) {
-			parse_vol_id(ARGV[i])
-		}
-	}
-	else {
-		# parse /proc/partitions
-		while ((getline < "/proc/partitions") == 1) {
-			# major minor #blocks name
-			if (!$4)
-				# discard invalid records
-				continue
-			else if ($3 < 2)
-				# discard extended partitions
-				continue
-			else
-				parse_vol_id($4)
-		}
-	}
+function blockdev_exists(node,	retval)
+{
+	cmd = "test -b \"" node  "\""
+	(system(cmd) == 0) ? retval = 0 : retval = 1
+	return retval
 }
 
 function parse_vol_id(name)
 {
 	# ensure these var's are empty
-	fstype = fsusage = mntdev = mntpnt = label = uuid = ""
+	delete id
+	mntdev = mntpnt = ""
 
 	# ensure name has /dev/ stripped from it
 	gsub(/^\/dev\//, "", name)
@@ -61,51 +46,70 @@ function parse_vol_id(name)
 	# device name blacklist
 	if (name ~ /^(ram|cloop|loop).+/)
 		return 0
-	
+
 	# run vol_id on dev, discard stderr
 	cmd = "/lib/udev/vol_id " dev " 2>/dev/null"
-	while ((cmd | getline) == 1) {
-		split($0, vol_info, "=")
-		# store volume information
-		if (vol_info[1] == "ID_FS_USAGE")
-			fsusage = vol_info[2]
-		else if (vol_info[1] == "ID_FS_TYPE")
-			fstype = vol_info[2]
-		else if (vol_info[1] == "ID_FS_UUID" && uuids)
-			uuid = vol_info[2]
-		else if	(vol_info[1] == "ID_FS_LABEL_SAFE" && labels)
-			label = vol_info[2]
-		else
-			continue
+	# label label_safe type usage uuid version
+	while (cmd | getline) {
+		sub(/^ID_FS_/, "", $1)
+		id[tolower($1)] = $2
 	}
-	
+
 	# return if we can't reliably use the partitions filesystem
-	if (!fstype || fstype == "unknown" || fsusage !~ /(filesystem|other)/)
+	if (!id["type"] || id["type"] == "unknown" || id["usage"] !~ /(filesystem|other)/)
 		return 0
-	
+
 	# use metainfo for linux native filesystems
-	if (fstype ~ /^(ext[234]|jfs|reiser|swap|xfs)/) {
-		mntdev = label ? "LABEL=" label : uuid ? "UUID=" uuid : dev
+	if (id["type"] ~ /^(ext[234]|jfs|reiser|swap|xfs)/) {
+		mntdev = (labels && id["label"]) ? "LABEL=" id["label"] : \
+			(uuids && id["uuid"]) ? "UUID=" id["uuid"] : dev
 	}
 	# workaround for non-perfect non-native fs support
 	else {
-		mntdev = label ? "/dev/disk/by-label/" label : \
-			uuid ?  "/dev/disk/by-uuid/" uuid : dev
-		
+		mntdev = (labels && id["label"]) ? "/dev/disk/by-label/" id["label"] : \
+			(uuids && id["uuid"]) ?  "/dev/disk/by-uuid/" id["uuid"] : dev
+
 		if (blockdev_exists(mntdev) != 0)
 			mntdev = dev
 	}
-	
+
 	# no mount point for swap
-	mntpnt = (fstype == "swap") ? "none" : "/media/" name
+	mntpnt = (id["type"] == "swap") ? "none" : "/media/" name
 	
 	# print something useful for a fstab helper program
-	print mntdev, mntpnt, fstype
+	print(mntdev, mntpnt, id["type"])
 }
 
-function blockdev_exists(node,	retval)
-{
-	cmd = "test -b \"" node  "\""
-	(system(cmd) == 0) ? retval = 0 : retval = 1
-	return retval
+function parse_all() {
+	# parse /proc/partitions
+	while (getline < "/proc/partitions") {
+		# major minor #blocks name
+		# Note: starts from $2 if anything other than FS=" " is used. I think that's messy from awk, but ok.
+		sub(/^[ \t]+/,"")
+		# Skip if illegal entry, or if first column not a number, or if third column indicates ext. partition
+		# Note: $2 % 16 could be used to determine major block device, such as hda. However superfloppies are
+		# possible, so leaving that out.
+		if (! $4 || $1 !~ /[0-9]+/ || $3 < 2) continue
+		parse_vol_id($4)
+	}
 }
+
+function usage() {
+	print("Usage: scanpartitions [-l|--labels] [-u|--uuids] [device]");
+	exit(0);
+}
+
+BEGIN {
+	FS="[ \t=]+"
+	if (ARGC > 1) {
+		# test devices given as arguments
+		for (i = 1; i < ARGC; i++) {
+			if (ARGV[i] ~ /^(-u|--uuids)$/) uuids=1
+			else if (ARGV[i] ~ /^(-l|--labels)$/) labels=1
+			else if (ARGV[i] ~ /^-/) usage()
+			else parse_vol_id(ARGV[i])
+		}
+	}
+	else parse_all()
+}
+

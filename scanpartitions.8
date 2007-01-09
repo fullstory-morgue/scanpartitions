@@ -25,14 +25,14 @@ advantages described above.
 .PP
 .SH OPTIONS
 .TP
-\fB\-v labels=1\fR
+\fB\-l|--labels\fR
 Enable the use of the volume LABEL identifier.
 .TP
-\fB\-v uuids=1\fR
+\fB\-u|--uuids\fR
 Enable the use of the filesystem UUID identifier.
 .PP
 .SH USAGE
-\fBscapartitions\fR will parse \fI/proc/partitions\fR if no block
+\fBscanpartitions\fR will parse \fI/proc/partitions\fR if no block
 device names are given as arguments.
 .PP
 The following example will print a line for all supported volumes
@@ -40,14 +40,14 @@ contained in \fI/proc/partitions\fR, using UUID metainfo for volume
 name:
 .PP
 .RS
-\fBscanpartitions -v uuids=1\fR
+\fBscanpartitions --uuids\fR
 .RE
 .PP
 The following example with print a line for block devices /dev/sda1
 and /dev/sda2, using LABEL metainfo where possible:
 .PP
 .RS
-\fBscanpartitions -v labels=1 /dev/sda1 /dev/sda2\fR
+\fBscanpartitions -l /dev/sda1 /dev/sda2\fR
 .RE
 .PP
 .SH AUTHOR

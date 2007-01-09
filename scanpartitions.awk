@@ -1,6 +1,7 @@
 #!/usr/bin/awk -f
 #
 # Copyright (C) 2007 Kel Modderman <kel@otaku42.de>
+#		     Michiel de Boer <locsmif@kanotix.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License

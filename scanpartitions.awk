@@ -85,19 +85,22 @@ function parse_all() {
 	# parse /proc/partitions
 	while (getline < "/proc/partitions") {
 		# major minor #blocks name
-		# Note: starts from $2 if anything other than FS=" " is used. I think that's messy from awk, but ok.
+		# Note: starts from $2 if anything other than FS=" " is used.
+		# I think that's messy from awk, but ok.
 		sub(/^[ \t]+/,"")
-		# Skip if illegal entry, or if first column not a number, or if third column indicates ext. partition
-		# Note: $2 % 16 could be used to determine major block device, such as hda. However superfloppies are
-		# possible, so leaving that out.
+		# Skip if illegal entry, or if first column not a number, or if
+		# third column indicates ext. partition
+		# Note: $2 % 16 could be used to determine major block device,
+		# such as hda. However superfloppies are possible, so leaving that
+		# out.
 		if (! $4 || $1 !~ /[0-9]+/ || $3 < 2) continue
 		parse_vol_id($4)
 	}
 }
 
 function usage() {
-	print("Usage: scanpartitions [-l|--labels] [-u|--uuids] [device]");
-	exit(0);
+	print("Usage: scanpartitions [-l|--labels] [-u|--uuids] [device]")
+	exit(0)
 }
 
 BEGIN {

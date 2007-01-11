@@ -98,8 +98,10 @@ function parse_all() {
 		# Note: $2 % 16 could be used to determine major block device,
 		# such as hda. However superfloppies are possible, so leaving that
 		# out.
-		if (! $4 || $1 !~ /[0-9]+/ || $3 < 2) continue
-		parse_vol_id($4)
+		if (! $4 || $1 !~ /[0-9]+/ || $3 < 2)
+			continue
+		else		
+			parse_vol_id($4)
 	}
 }
 
@@ -122,6 +124,7 @@ BEGIN {
 				disk[++j] = ARGV[i]
 		}
 	}
+	
 	if (disk[1])
 		for (i in disk) parse_vol_id(disk[i])
 	else

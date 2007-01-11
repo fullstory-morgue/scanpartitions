@@ -32,10 +32,11 @@ function parse_vol_id(name)
 {
 	# ensure these var's are empty
 	delete id
+	delete vol_id
 	mntdev = mntpnt = ""
 
 	# ensure name has /dev/ stripped from it
-	gsub(/^\/dev\//, "", name)
+	sub(/^\/dev\//, "", name)
 	
 	# ensure `dev' is prefixed with /dev/
 	dev = "/dev/" name
@@ -52,12 +53,17 @@ function parse_vol_id(name)
 	cmd = "/lib/udev/vol_id " dev " 2>/dev/null"
 	# label label_safe type usage uuid version
 	while (cmd | getline) {
-		sub(/^ID_FS_/, "", $1)
-		id[tolower($1)] = $2
+		split($0, vol_id, "=")
+		sub(/^ID_FS_/, "", vol_id[1])
+		id[tolower(vol_id[1])] = vol_id[2]
 	}
 
+	# return if we cannot handle fs usage type
+	if (id["usage"] !~ /(filesystem|other)/)
+		return 0
+
 	# return if we can't reliably use the partitions filesystem
-	if (!id["type"] || id["type"] == "unknown" || id["usage"] !~ /(filesystem|other)/)
+	if (!id["type"] || id["type"] == "unknown")
 		return 0
 
 	# use metainfo for linux native filesystems
@@ -85,11 +91,9 @@ function parse_all() {
 	# parse /proc/partitions
 	while (getline < "/proc/partitions") {
 		# major minor #blocks name
-		# Note: starts from $2 if anything other than FS=" " is used.
-		# I think that's messy from awk, but ok.
-		sub(/^[ \t]+/,"")
-		# Skip if illegal entry, or if first column not a number, or if
-		# third column indicates ext. partition
+		#
+		# Skip if illegal entry, or if first column is not a number, or if
+		# number of blocks indicates ext. partition
 		# Note: $2 % 16 could be used to determine major block device,
 		# such as hda. However superfloppies are possible, so leaving that
 		# out.
@@ -104,17 +108,22 @@ function usage() {
 }
 
 BEGIN {
-	FS="[ \t=]+"
 	if (ARGC > 1) {
 		# test devices given as arguments
 		for (i = 1; i < ARGC; i++) {
-			if (ARGV[i] ~ /^(-u|--uuids)$/) uuids=1
-			else if (ARGV[i] ~ /^(-l|--labels)$/) labels=1
-			else if (ARGV[i] ~ /^-/) usage()
-			else p[++j] = ARGV[i]
+			if (ARGV[i] ~ /^(-u|--uuids)$/)
+				uuids=1
+			else if (ARGV[i] ~ /^(-l|--labels)$/)
+				labels=1
+			else if (ARGV[i] ~ /^-/)
+				usage()
+			else
+				disk[++j] = ARGV[i]
 		}
 	}
-	if (p[1]) for (i in p) parse_vol_id(p[i])
-	else parse_all()
+	if (disk[1])
+		for (i in disk) parse_vol_id(disk[i])
+	else
+		parse_all()
 }
 

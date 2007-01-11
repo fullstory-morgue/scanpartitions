@@ -51,8 +51,9 @@ function parse_vol_id(name)
 
 	# run vol_id on dev, discard stderr
 	cmd = "/lib/udev/vol_id " dev " 2>/dev/null"
-	# label label_safe type usage uuid version
+	# form assoc. array `id'
 	while (cmd | getline) {
+		# indices: label label_safe type usage uuid version
 		split($0, vol_id, "=")
 		sub(/^ID_FS_/, "", vol_id[1])
 		id[tolower(vol_id[1])] = vol_id[2]

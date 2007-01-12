@@ -2,7 +2,7 @@
 .SH NAME
 scanpartitions \- fstab helper script
 .SH SYNOPSIS
-\fBscanpartitions\fR [\-l|\-\-labels] [\-u|\-\-uuids] [devices]
+\fBscanpartitions\fR [\-\-labels|\-\-uuids] [devices]
 .SH DESCRIPTION
 Parses /proc/partitions and generates a device name, mount point
 and filesystem type suitable for use in /etc/fstab for each valid
@@ -13,8 +13,8 @@ Using UUID or LABEL disk identification in /etc/fstab is more robust
 than using the device name; adding or removing a system disk changes
 disk device names but not the filesystem uuid or volume label.
 .PP
-LABEL is given priority over UUID when the labels=1 and uuids=1
-options are used together.
+LABEL is given priority over UUID when the \fB\-\-labels\fR and 
+\fB\-\-uuids\fR options are used together.
 .PP
 Linux non-native filesystems (eg. ntfs, vfat, hfsplus) may not be
 able to make use of the LABEL or UUID volume identifiers. These
@@ -25,10 +25,10 @@ advantages described above.
 .PP
 .SH OPTIONS
 .TP
-\fB\-l|--labels\fR
+\fB\-\-labels\fR
 Enable the use of the volume LABEL identifier.
 .TP
-\fB\-u|--uuids\fR
+\fB\-\-uuids\fR
 Enable the use of the filesystem UUID identifier.
 .PP
 .SH USAGE
@@ -40,14 +40,14 @@ contained in \fI/proc/partitions\fR, using UUID metainfo for volume
 name:
 .PP
 .RS
-\fBscanpartitions --uuids\fR
+\fBscanpartitions \-\-uuids\fR
 .RE
 .PP
 The following example with print a line for block devices /dev/sda1
 and /dev/sda2, using LABEL metainfo where possible:
 .PP
 .RS
-\fBscanpartitions -l /dev/sda1 /dev/sda2\fR
+\fBscanpartitions \-\-labels /dev/sda1 /dev/sda2\fR
 .RE
 .PP
 .SH AUTHOR

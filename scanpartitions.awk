@@ -115,7 +115,7 @@ function parse_all() {
 }
 
 function usage() {
-	print("Usage: scanpartitions [-l|--labels] [-u|--uuids] [device]")
+	print("Usage: scanpartitions [--labels|--uuids] [device]")
 	exit(0)
 }
 
@@ -123,9 +123,9 @@ BEGIN {
 	if (ARGC > 1) {
 		# test devices given as arguments
 		for (i = 1; i < ARGC; i++) {
-			if (ARGV[i] ~ /^(-u|--uuids)$/)
+			if (ARGV[i] == "--uuids")
 				uuids=1
-			else if (ARGV[i] ~ /^(-l|--labels)$/)
+			else if (ARGV[i] == "--labels")
 				labels=1
 			else if (ARGV[i] ~ /^-/)
 				usage()

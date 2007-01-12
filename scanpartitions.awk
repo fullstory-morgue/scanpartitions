@@ -69,17 +69,26 @@ function parse_vol_id(name)
 
 	# use metainfo for linux native filesystems
 	if (id["type"] ~ /^(ext[234]|jfs|reiser|swap|xfs)/) {
-		mntdev = (labels && id["label"]) ? "LABEL=" id["label"] : \
-			(uuids && id["uuid"]) ? "UUID=" id["uuid"] : dev
+		if (labels && id["label"])
+			mntdev = "LABEL=" id["label"]
+		else if (uuids && id["uuid"])
+			mntdev = "UUID=" id["uuid"]
 	}
 	# workaround for non-perfect non-native fs support
 	else {
-		mntdev = (labels && id["label"]) ? "/dev/disk/by-label/" id["label"] : \
-			(uuids && id["uuid"]) ?  "/dev/disk/by-uuid/" id["uuid"] : dev
-
+		if (labels && id["label"])
+			mntdev = "/dev/disk/by-label/" id["label"]
+		else if (uuids && id["uuid"])
+			mntdev = "/dev/disk/by-uuid/" id["uuid"]
+		
+		# block device may not yet exist if vfat/ntfs volume was just created
 		if (blockdev_exists(mntdev) != 0)
 			mntdev = dev
 	}
+	
+	# fall back to raw device name if uuid/label not found or wanted
+	if (!mntdev)
+		mntdev = dev
 
 	# no mount point for swap
 	mntpnt = (id["type"] == "swap") ? "none" : "/media/" name

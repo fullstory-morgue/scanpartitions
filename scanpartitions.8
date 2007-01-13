@@ -2,7 +2,7 @@
 .SH NAME
 scanpartitions \- fstab helper script
 .SH SYNOPSIS
-\fBscanpartitions\fR [\-\-labels|\-\-uuids] [devices]
+\fBscanpartitions\fR [\-l|\-\-labels] [\-u|\-\-uuids] [devices]
 .SH DESCRIPTION
 Parses /proc/partitions and generates a device name, mount point
 and filesystem type suitable for use in /etc/fstab for each valid
@@ -25,10 +25,10 @@ advantages described above.
 .PP
 .SH OPTIONS
 .TP
-\fB\-\-labels\fR
+\fB\-l|\-\-labels\fR
 Enable the use of the volume LABEL identifier.
 .TP
-\fB\-\-uuids\fR
+\fB\-u|\-\-uuids\fR
 Enable the use of the filesystem UUID identifier.
 .PP
 .SH USAGE

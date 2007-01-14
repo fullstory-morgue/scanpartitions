@@ -1,7 +1,4 @@
-scanpartitions (0.7.4) UNRELEASED; urgency=low
-
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
+scanpartitions (0.7.4) unstable; urgency=low
 
   [ Michiel de Boer ]
   * Misc improvements

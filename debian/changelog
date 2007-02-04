@@ -1,3 +1,9 @@
+scanpartitions (0.7.6) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun,  4 Feb 2007 20:28:40 +0100
+
 scanpartitions (0.7.5) unstable; urgency=low
 
   * Whitespace and style modifications.

@@ -1,9 +1,5 @@
-scanpartitions (0.7.5) UNRELEASED; urgency=low
+scanpartitions (0.7.5) unstable; urgency=low
 
-  [ Stefan Lippers-Hollmann ]
-  * NOT RELEASED YET
-
-  [ Kel Modderman ]
   * Whitespace and style modifications.
 
  -- Kel Modderman <kel@otaku42.de>  Sun,  4 Feb 2007 19:39:03 +1000

@@ -21,10 +21,9 @@
 # On Debian GNU/Linux systems, the text of the GPL license can be
 # found in /usr/share/common-licenses/GPL.
 
-function blockdev_exists(node,	retval)
+function blockdev_exists(node,    retval)
 {
-	cmd = "test -b \"" node  "\""
-	(system(cmd) == 0) ? retval = 0 : retval = 1
+	retval = system("test -b \"" node  "\"")
 	return retval
 }
 
@@ -35,60 +34,45 @@ function parse_vol_id(name)
 	delete vol_id
 	mntdev = mntpnt = ""
 
-	# ensure name has /dev/ stripped from it
-	sub(/^\/dev\//, "", name)
-	
-	# ensure `dev' is prefixed with /dev/
-	dev = "/dev/" name
+	# ensure name has /dev/ stripped from it, and dev is prefixed with /dev/
+	sub(/^\/dev\//, "", name); dev = "/dev/" name
 
 	# test block device node for existance
-	if (blockdev_exists(dev) != 0)
-		return 0
-		
+	if (blockdev_exists(dev) != 0) return 0
 	# device name blacklist
-	if (name ~ /^(ram|cloop|loop).+/)
-		return 0
+	if (name ~ /^(ram|cloop|loop).+/) return 0
 
 	# run vol_id on dev, discard stderr
 	cmd = "/lib/udev/vol_id " dev " 2>/dev/null"
 	# form assoc. array `id'
 	while (cmd | getline) {
 		# indices: label label_safe type usage uuid version
-		split($0, vol_id, "=")
-		sub(/^ID_FS_/, "", vol_id[1])
+		split($0, vol_id, "="); sub(/^ID_FS_/, "", vol_id[1])
 		id[tolower(vol_id[1])] = vol_id[2]
 	}
 
 	# return if we cannot handle fs usage type
-	if (id["usage"] !~ /(filesystem|other)/)
-		return 0
+	if (id["usage"] !~ /(filesystem|other)/) return 0
 
 	# return if we can't reliably use the partitions filesystem
-	if (!id["type"] || id["type"] == "unknown")
-		return 0
+	if (!id["type"] || id["type"] == "unknown") return 0
 
 	# use metainfo for linux native filesystems
 	if (id["type"] ~ /^(ext[234]|jfs|reiser|swap|xfs)/) {
-		if (labels && id["label"])
-			mntdev = "LABEL=" id["label"]
-		else if (uuids && id["uuid"])
-			mntdev = "UUID=" id["uuid"]
+		if 	(labels && id["label"])	mntdev = "LABEL=" id["label"]
+		else if	(uuids && id["uuid"])	mntdev = "UUID=" id["uuid"]
 	}
 	# workaround for non-perfect non-native fs support
 	else {
-		if (labels && id["label"])
-			mntdev = "/dev/disk/by-label/" id["label"]
-		else if (uuids && id["uuid"])
-			mntdev = "/dev/disk/by-uuid/" id["uuid"]
+		if	(labels && id["label"])	mntdev = "/dev/disk/by-label/" id["label"]
+		else if	(uuids && id["uuid"])	mntdev = "/dev/disk/by-uuid/" id["uuid"]
 		
 		# block device may not yet exist if vfat/ntfs volume was just created
-		if (blockdev_exists(mntdev) != 0)
-			mntdev = dev
+		if (blockdev_exists(mntdev) != 0) mntdev = dev
 	}
 	
 	# fall back to raw device name if uuid/label not found or wanted
-	if (!mntdev)
-		mntdev = dev
+	if (!mntdev) mntdev = dev
 
 	# no mount point for swap
 	mntpnt = (id["type"] == "swap") ? "none" : "/media/" name
@@ -107,10 +91,8 @@ function parse_all() {
 		# Note: $2 % 16 could be used to determine major block device,
 		# such as hda. However superfloppies are possible, so leaving that
 		# out.
-		if (! $4 || $1 !~ /[0-9]+/ || $3 < 2)
-			continue
-		else		
-			parse_vol_id($4)
+		if (! $4 || $1 !~ /[0-9]+/ || $3 < 2) continue
+		else parse_vol_id($4)
 	}
 }
 
@@ -123,20 +105,14 @@ BEGIN {
 	if (ARGC > 1) {
 		# test devices given as arguments
 		for (i = 1; i < ARGC; i++) {
-			if (ARGV[i] ~ /^(-u|--uuids)/)
-				uuids=1
-			else if (ARGV[i] ~ /^(-l|--labels)/)
-				labels=1
-			else if (ARGV[i] ~ /^-/)
-				usage()
-			else
-				disk[++j] = ARGV[i]
+			if 	(ARGV[i] ~ /^(-u|--uuids)/)	uuids=1
+			else if	(ARGV[i] ~ /^(-l|--labels)/)	labels=1
+			else if	(ARGV[i] ~ /^-/)		usage()
+			else					disk[++j] = ARGV[i]
 		}
 	}
 	
-	if (disk[1])
-		for (i in disk) parse_vol_id(disk[i])
-	else
-		parse_all()
+	if (disk[1]) for (i in disk) parse_vol_id(disk[i])
+	else parse_all()
 }
 

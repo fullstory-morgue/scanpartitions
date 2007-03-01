@@ -1,8 +1,9 @@
-scanpartitions (0.7.6) UNRELEASED; urgency=low
+scanpartitions (0.7.6) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * scanpartitions-kanotix never existed in sidux or debian, don't conflict
+    with it.
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sun,  4 Feb 2007 20:28:40 +0100
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  1 Mar 2007 17:54:12 +0100
 
 scanpartitions (0.7.5) unstable; urgency=low
 

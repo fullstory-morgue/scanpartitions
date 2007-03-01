@@ -9,7 +9,6 @@ Standards-Version: 3.7.2
 Package: scanpartitions
 Architecture: all
 Depends: udev
-Conflicts: scanpartitions-kanotix
 Description: fstab-helper for sidux
  scanpartitions reads /proc/partitions and tries to guess
  the filesystem on each partition for automatic /etc/fstab

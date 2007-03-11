@@ -1,8 +1,9 @@
-scanpartitions (0.7.7) UNRELEASED; urgency=low
+scanpartitions (0.7.7) ORPHANED; urgency=low
 
-  * NOT RELEASED YET
+  * ORPHAN PACKAGE
+  * Merged with rebuildfstab
 
- -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu,  1 Mar 2007 17:56:29 +0100
+ -- Kel Modderman <kel@otaku42.de>  Mon, 12 Mar 2007 09:20:07 +1000
 
 scanpartitions (0.7.6) unstable; urgency=low
 
